@@ -12,7 +12,7 @@ DEBUG = False
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "taiga",
+        "NAME": "tiger",
     }
 }
 
@@ -234,8 +234,8 @@ TEMPLATES = [
 ]
 
 MIDDLEWARE_CLASSES = [
-    "taiga.base.middleware.cors.CoorsMiddleware",
-    "taiga.events.middleware.SessionIDMiddleware",
+    "tiger.base.middleware.cors.CoorsMiddleware",
+    "tiger.events.middleware.SessionIDMiddleware",
 
     # Common middlewares
     "django.middleware.common.CommonMiddleware",
@@ -247,7 +247,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
-ROOT_URLCONF = "taiga.urls"
+ROOT_URLCONF = "tiger.urls"
 
 INSTALLED_APPS = [
     "django.contrib.auth",
@@ -263,7 +263,7 @@ INSTALLED_APPS = [
 
 ]
 
-WSGI_APPLICATION = "taiga.wsgi.application"
+WSGI_APPLICATION = "tiger.wsgi.application"
 
 LOGGING = {
     "version": 1,
@@ -320,12 +320,12 @@ LOGGING = {
             "level": "ERROR",
             "propagate": False,
         },
-        "taiga.export_import": {
+        "tiger.export_import": {
             "handlers": ["mail_admins", "console"],
             "level": "ERROR",
             "propagate": False,
         },
-        "taiga": {
+        "tiger": {
             "handlers": ["console"],
             "level": "DEBUG",
             "propagate": False,
@@ -339,7 +339,7 @@ LOGGING = {
 }
 
 AUTH_USER_MODEL = "users.User"
-FORMAT_MODULE_PATH = "taiga.base.formats"
+FORMAT_MODULE_PATH = "tiger.base.formats"
 
 DATE_INPUT_FORMATS = (
     "%Y-%m-%d", "%m/%d/%Y", "%d/%m/%Y", "%b %d %Y",
@@ -358,16 +358,16 @@ MAX_AGE_CANCEL_ACCOUNT = 30 * 24 * 60 * 60  # 30 days in seconds
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         # Mainly used by taiga-front
-        "taiga.auth.backends.Token",
+        "tiger.auth.backends.Token",
 
         # Mainly used for api debug.
-        "taiga.auth.backends.Session",
+        "tiger.auth.backends.Session",
 
         # Application tokens auth
-        "taiga.external_apps.auth_backends.Token",
+        "tiger.external_apps.auth_backends.Token",
     ),
     "DEFAULT_THROTTLE_CLASSES": (
-        "taiga.base.throttling.CommonThrottle",
+        "tiger.base.throttling.CommonThrottle",
     ),
     "DEFAULT_THROTTLE_RATES": {
         "anon-write": None,
@@ -382,8 +382,8 @@ REST_FRAMEWORK = {
         "user-detail": None,
     },
     "DEFAULT_THROTTLE_WHITELIST": [],
-    "FILTER_BACKEND": "taiga.base.filters.FilterBackend",
-    "EXCEPTION_HANDLER": "taiga.base.exceptions.exception_handler",
+    "FILTER_BACKEND": "tiger.base.filters.FilterBackend",
+    "EXCEPTION_HANDLER": "tiger.base.exceptions.exception_handler",
     "PAGINATE_BY": 30,
     "PAGINATE_BY_PARAM": "page_size",
     "MAX_PAGINATE_BY": 1000,
@@ -392,11 +392,11 @@ REST_FRAMEWORK = {
 
 # Extra expose header related to Taiga APP (see taiga.base.middleware.cors=)
 APP_EXTRA_EXPOSE_HEADERS = [
-    "taiga-info-total-opened-milestones",
-    "taiga-info-total-closed-milestones",
-    "taiga-info-project-memberships",
-    "taiga-info-project-is-private",
-    "taiga-info-order-updated"
+    "tiger-info-total-opened-milestones",
+    "tiger-info-total-closed-milestones",
+    "tiger-info-project-memberships",
+    "tiger-info-project-is-private",
+    "tiger-info-order-updated"
 ]
 
 DEFAULT_PROJECT_TEMPLATE = "scrum"
@@ -462,10 +462,10 @@ CHANGE_NOTIFICATIONS_MIN_INTERVAL = 0  # seconds
 # List of functions called for filling correctly the ProjectModulesConfig associated to a project
 # This functions should receive a Project parameter and return a dict with the desired configuration
 PROJECT_MODULES_CONFIGURATORS = {
-    "github": "taiga.hooks.github.services.get_or_generate_config",
-    "gitlab": "taiga.hooks.gitlab.services.get_or_generate_config",
-    "bitbucket": "taiga.hooks.bitbucket.services.get_or_generate_config",
-    "gogs": "taiga.hooks.gogs.services.get_or_generate_config",
+    "github": "tiger.hooks.github.services.get_or_generate_config",
+    "gitlab": "tiger.hooks.gitlab.services.get_or_generate_config",
+    "bitbucket": "tiger.hooks.bitbucket.services.get_or_generate_config",
+    "gogs": "tiger.hooks.gogs.services.get_or_generate_config",
 }
 
 BITBUCKET_VALID_ORIGIN_IPS = ["131.103.20.165", "131.103.20.166", "104.192.143.192/28", "104.192.143.208/28"]
@@ -525,6 +525,3 @@ if "test" in sys.argv:
     print("Try: \033[1;33mpy.test\033[0m")
     sys.exit(0)
 
-if __name__ == "__main__":
-    print('__file__ : ' + __file__)
-    print('BASE_DIR : ' + BASE_DIR)
