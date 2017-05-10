@@ -16,23 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tiger.base import routers
-from django.conf import settings
-
-router = routers.DefaultRouter(trailing_slash=False)
-
-# Locales
-from tiger.locale.api import LocalesViewSet
-
-router.register(r"locales", LocalesViewSet, base_name="locales")
+from tiger.base.api.permissions import TaigaResourcePermission, AllowAny
 
 
-# Users & Roles
-from tiger.auth.api import AuthViewSet
-from tiger.users.api import UsersViewSet
-from tiger.users.api import RolesViewSet
-
-router.register(r"auth", AuthViewSet, base_name="auth")
-router.register(r"users", UsersViewSet, base_name="users")
-router.register(r"roles", RolesViewSet, base_name="roles")
-
+class LocalesPermission(TaigaResourcePermission):
+    global_perms = AllowAny()

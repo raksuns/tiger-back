@@ -16,23 +16,17 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from tiger.base import routers
 from django.conf import settings
 
-router = routers.DefaultRouter(trailing_slash=False)
+from tiger.base import response
+from tiger.base.api.viewsets import ReadOnlyListViewSet
 
-# Locales
-from tiger.locale.api import LocalesViewSet
-
-router.register(r"locales", LocalesViewSet, base_name="locales")
+from . import permissions
 
 
-# Users & Roles
-from tiger.auth.api import AuthViewSet
-from tiger.users.api import UsersViewSet
-from tiger.users.api import RolesViewSet
+class LocalesViewSet(ReadOnlyListViewSet):
+    permission_classes = (permissions.LocalesPermission,)
 
-router.register(r"auth", AuthViewSet, base_name="auth")
-router.register(r"users", UsersViewSet, base_name="users")
-router.register(r"roles", RolesViewSet, base_name="roles")
-
+    def list(self, request, *args, **kwargs):
+        locales = [{"code": c, "name": n, "bidi": c in settings.LANGUAGES_BIDI} for c, n in settings.LANGUAGES]
+        return response.Ok(locales)
